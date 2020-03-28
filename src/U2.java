@@ -15,6 +15,7 @@ public class U2 extends Rocket {
         rocketWeight = 18000;
         maxWeight = 29000;
         costOfRocket = 120000000;
+        cargoLimit = 11000;
     }
 
     private Random random = new Random();

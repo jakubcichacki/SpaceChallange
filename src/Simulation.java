@@ -7,6 +7,10 @@ import java.util.regex.Pattern;
 
 public class Simulation {
 
+    private int numbersOfRocketsToSend = 0;
+    private int budgetU1 = 0;
+    private int budgetU2 = 0;
+
     ArrayList <Item> loadItems(String nameOfFile) {
         ArrayList<Item> listOfItemsFromFile = new ArrayList<>();
         File file = new File(nameOfFile);
@@ -34,9 +38,6 @@ public class Simulation {
         }
         return listOfItemsFromFile;
     }
-
-    ArrayList<Item> listOfItemsPhase1 = loadItems("phase-1.txt");
-    ArrayList<Item> listOfItemsPhase2 = loadItems("phase-2.txt");
 
     ArrayList<Rocket> loadU1 (ArrayList<Item> items) {
         Rocket rocketU1 = new U1();
@@ -70,6 +71,24 @@ public class Simulation {
             }
         }
         return listOfU2s;
+    }
+
+    int runSimulation(ArrayList<Rocket> rocketArrayList) {
+        int budget = 0;
+
+        for (Rocket rocket : rocketArrayList) {
+            do {
+                rocket.launch();
+                numbersOfRocketsToSend++;
+            } while (!rocket.launch());
+        }
+        for (Rocket rocket : rocketArrayList) {
+            do {
+                rocket.land();
+                numbersOfRocketsToSend++;
+            } while (!rocket.land());
+        }
+        return budget = Rocket.costOfRocket * numbersOfRocketsToSend;
     }
 
 

@@ -3,9 +3,9 @@ public class Rocket implements SpaceShip {
     public int rocketWeight;
     public int maxWeight;
     public int currentWeight = rocketWeight;
-    public int costOfRocket;
+    public static int costOfRocket;
     public int cargoCarried = currentWeight - rocketWeight;
-    public final int cargoLimit = maxWeight - rocketWeight;
+    public int cargoLimit;
 
     @Override
     public boolean launch() {
