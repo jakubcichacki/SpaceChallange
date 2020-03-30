@@ -7,14 +7,10 @@ import java.util.regex.Pattern;
 
 public class Simulation {
 
-    private int numbersOfRocketsToSend = 0;
-    private int budgetU1 = 0;
-    private int budgetU2 = 0;
-
     ArrayList <Item> loadItems(String nameOfFile) {
         ArrayList<Item> listOfItemsFromFile = new ArrayList<>();
         File file = new File(nameOfFile);
-        Scanner scanner = null;
+        Scanner scanner;
         try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -36,59 +32,75 @@ public class Simulation {
             }
 
         }
+
         return listOfItemsFromFile;
     }
 
     ArrayList<Rocket> loadU1 (ArrayList<Item> items) {
         Rocket rocketU1 = new U1();
         ArrayList<Rocket> listOfU1s = new ArrayList<>();
+
         listOfU1s.add(rocketU1);
+        Rocket lastRocket = listOfU1s.get(0);
 
         for (Item item : items) {
-            if (rocketU1.canCarry(item)) {
-                rocketU1.carry(item);
-            }
-            else {
+            if (!lastRocket.canCarry(item)) {
                 rocketU1 = new U1();
                 listOfU1s.add(rocketU1);
+                lastRocket = listOfU1s.get(listOfU1s.size() - 1);
+
             }
+            lastRocket.carry(item);
         }
+
+        if (lastRocket.currentCargo == 0) {
+            listOfU1s.remove(listOfU1s.size()-1);
+        }
+
         return listOfU1s;
     }
 
     ArrayList<Rocket> loadU2 (ArrayList<Item> items) {
         Rocket rocketU2 = new U2();
         ArrayList<Rocket> listOfU2s = new ArrayList<>();
+
         listOfU2s.add(rocketU2);
+        Rocket lastRocket = listOfU2s.get(0);
 
         for (Item item : items) {
-            if (rocketU2.canCarry(item)) {
-                rocketU2.carry(item);
-            }
-            else {
-                rocketU2 = new U1();
+            if (!lastRocket.canCarry(item)) {
+                rocketU2 = new U2();
                 listOfU2s.add(rocketU2);
+                lastRocket = listOfU2s.get(listOfU2s.size() - 1);
+
             }
+            lastRocket.carry(item);
         }
+
+        if (lastRocket.currentCargo == 0) {
+            listOfU2s.remove(listOfU2s.size()-1);
+        }
+
         return listOfU2s;
     }
 
-    int runSimulation(ArrayList<Rocket> rocketArrayList) {
-        int budget = 0;
+    long runSimulation(ArrayList<Rocket> rocketArrayList) {
+        int numbersOfRocketsToSend = rocketArrayList.size();
 
         for (Rocket rocket : rocketArrayList) {
-            do {
-                rocket.launch();
+            while (!rocket.launch()) {
                 numbersOfRocketsToSend++;
-            } while (!rocket.launch());
+                rocket.launch();
+            }
         }
         for (Rocket rocket : rocketArrayList) {
-            do {
-                rocket.land();
+            while (!rocket.land()) {
                 numbersOfRocketsToSend++;
-            } while (!rocket.land());
+                rocket.land();
+            }
         }
-        return budget = Rocket.costOfRocket * numbersOfRocketsToSend;
+
+        return Rocket.costOfRocket * numbersOfRocketsToSend;
     }
 
 

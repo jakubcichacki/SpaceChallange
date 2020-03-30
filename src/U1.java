@@ -15,6 +15,7 @@ public class U1 extends Rocket {
         maxWeight = 18000;
         costOfRocket = 100000000;
         cargoLimit = 8000;
+        currentCargo = 0;
     }
 
     private Random random = new Random();
@@ -24,17 +25,23 @@ public class U1 extends Rocket {
 
     @Override
     public boolean launch() {
-        double chanceOfLaunchExplosion = percentExplosion * (cargoCarried / cargoLimit);
-        if(chanceOfLaunchExplosion >= chance)
+        double chanceOfLaunchExplosion = percentExplosion * ((currentCargo + rocketWeight) / cargoLimit);
+        if(chanceOfLaunchExplosion >= chance) {
+            System.out.println("U1 explosion during launch!");
+            chance = random.nextDouble();
             return false;
+        }
         else return true;
     }
 
     @Override
     public boolean land() {
-        double chanceOfLaunchCrash = percentCrash * (cargoCarried / cargoLimit);
-        if(chanceOfLaunchCrash >= chance)
+        double chanceOfLaunchCrash = percentCrash * ((currentCargo + rocketWeight) / cargoLimit);
+        if(chanceOfLaunchCrash >= chance) {
+            System.out.println("U1 crash during land!");
+            chance = random.nextDouble();
             return false;
+        }
         else return true;
     }
 }

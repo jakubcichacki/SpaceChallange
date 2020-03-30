@@ -14,13 +14,13 @@ public class Main {
         ArrayList<Rocket> fleetU1Phase1 = simulation.loadU1(loadItemsPhase1);
         ArrayList<Rocket> fleetU1Phase2 = simulation.loadU1(loadItemsPhase2);
 
-        int budgetU1 = simulation.runSimulation(fleetU1Phase1) + simulation.runSimulation(fleetU1Phase2);
+        long budgetU1 = simulation.runSimulation(fleetU1Phase1) + simulation.runSimulation(fleetU1Phase2);
         System.out.println("Budget needed for mission with U1 rockets: " + budgetU1 + ".");
 
         ArrayList<Rocket> fleetU2Phase1 = simulation.loadU2(loadItemsPhase1);
         ArrayList<Rocket> fleetU2Phase2 = simulation.loadU2(loadItemsPhase2);
 
-        int budgetU2 = simulation.runSimulation(fleetU2Phase1) + simulation.runSimulation(fleetU2Phase2);
+        long budgetU2 = simulation.runSimulation(fleetU2Phase1) + simulation.runSimulation(fleetU2Phase2);
         System.out.println("Budget needed for mission with U2 rockets: " + budgetU2 + ".");
 
     }
